@@ -1,0 +1,16 @@
+﻿port_name,purpose,planned_providers,planned_consumers,contract_output,critical_invariant,version
+DICOMPort,"Get available series, explicit selection, source UID set",IO01;IO02;IO05,UI01;UI02,series headers+source CT refs,No PHI in UI logs; validate FoR,0.x-DESIGN_ONLY
+QualityPort,"Collect QC findings, severity and CT locators",QS01;QS02;QS03;QS04,UI03;UI08,QC report+locators,No silent FAIL→PASS,0.x-DESIGN_ONLY
+JobPort,"Submit/cancel/resume stage, progress",AP02;AP03;IN04;IN05,UI04;UI05;UI13,job IDs/status/events,main-thread-only UI mutation,0.x-DESIGN_ONLY
+BranchPort,Read stable A/V/B branch IDs and graph lineage,LB05;DM03,UI06,branch tree+source locators,unknown/variant explicit,0.x-DESIGN_ONLY
+ReviewPort,"Clinician accept/edit/reject, audit",AP06;IN12,UI07,review revision,worker cannot accept,0.x-DESIGN_ONLY
+TerritoryPort,List method-specific territory candidates,TR01;TR02;TR03,UI09,candidate masks/disagreement,experimental marked,0.x-DESIGN_ONLY
+LesionPort,"Manual/AI ROI, CT source geometry",PL01;PL02,UI10,lesion revision,manual always available,0.x-DESIGN_ONLY
+PlanPort,Plan candidates/hypothetical measurements,AP07;PL03;PL04;PL05,UI11,plan revision,stale review invalidation,0.x-DESIGN_ONLY
+ExportPort,NRRD/SEG/STL/report gated by review,AP08;EX01;EX02;EX03;EX04;EX05,UI12,export manifest/QA,DICOM references validated,0.x-DESIGN_ONLY
+GeometryPort,Affine transforms and geometry QC,DM01;IO03;IO04,UI14;UI17,IJK-LPS and CT locators,no left/right swap,0.x-DESIGN_ONLY
+SegmentationPort,Source aligned segmentation artifacts,IO08;IO09;IO10,UI15,masks+class maps,mask geometry match,0.x-DESIGN_ONLY
+PreviewPort,Display-only mesh LOD and actor lifecycle,UI16;EX04,UI16,LOD+actor refs,not for measurements,0.x-DESIGN_ONLY
+CaseStorePort,"Protected case source artifacts, metadata",IN01;IN02,AP01,case manifest and path,no patient data leaked,0.x-DESIGN_ONLY
+ResourcePort,RAM CPU GPU admission/telemetry,IN06;IN07;IN09,AP05,admission decision,UMA not double-counted,0.x-DESIGN_ONLY
+ArtifactStorePort,Immutable model output and dependency cache,IN02;IN03;IN04,AP04,artifact revision and manifest,atomic+SHA before complete,0.x-DESIGN_ONLY

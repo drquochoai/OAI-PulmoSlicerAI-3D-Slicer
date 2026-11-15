@@ -1,0 +1,98 @@
+﻿module_id,layer,package,planned_filename,responsibility,inputs,outputs,depends_on_modules,execution_context,soft_loc_review_limit,criticality,implementation_status
+UI00,presentation,bootstrap,PulmoSlicerAI.py,"Thin scripted Slicer module entry point only, registers widgets, no AI calculations",Slicer startup,registered module,None,UI_MAIN,160,high,DESIGN_ONLY
+UI01,presentation,case_import,case_import_widget.py,Chọn folder DICOM và series rõ ràng,DICOM directory,SeriesSelection request,DICOMPort,UI_MAIN,300,high,DESIGN_ONLY
+UI02,presentation,case_import,series_table_model.py,"Danh sách nhiều series, metadata an toàn",SeriesMetadata[],selected series ID,DICOMPort,UI_MAIN,250,high,DESIGN_ONLY
+UI03,presentation,case_import,series_quality_panel.py,"Hiện spacing, phase, quality warnings",QA findings,warning panel,QualityPort,UI_MAIN,220,high,DESIGN_ONLY
+UI04,presentation,reconstruction,reconstruction_widget.py,Controls preview/detailed và stage progress,Job status,user actions,JobPort,UI_MAIN,300,medium,DESIGN_ONLY
+UI05,presentation,reconstruction,progress_view_model.py,Map state machine sang UI,Job events,display stage progress,JobPort,UI_MAIN,200,medium,DESIGN_ONLY
+UI06,presentation,anatomy,branch_tree_widget.py,Tra cứu A/V/B branch hierarchy,BranchInstances,selected branch,BranchPort,UI_MAIN,300,high,DESIGN_ONLY
+UI07,presentation,anatomy,branch_review_widget.py,Accept/edit/reject/unknown labels,review request,HumanReview,ReviewPort,UI_MAIN,280,critical,DESIGN_ONLY
+UI08,presentation,anatomy,uncertainty_panel.py,Cảnh báo confidence/variant/unknown,QA+prediction,visible uncertainty,QualityPort,UI_MAIN,230,critical,DESIGN_ONLY
+UI09,presentation,territories,territory_comparison_widget.py,So sánh 2 phương pháp territory,TerritoryCandidates,display selection,TerritoryPort,UI_MAIN,270,high,DESIGN_ONLY
+UI10,presentation,lesions,lesion_editor_widget.py,Chọn/chỉnh lesion bằng Slicer tools,Volume+mask,Lesion revision,LesionPort,UI_MAIN,250,high,DESIGN_ONLY
+UI11,presentation,planning,planning_widget.py,"Chọn target, mặt cắt giả định và review",PlanCandidates,plan actions,PlanPort,UI_MAIN,300,critical,DESIGN_ONLY
+UI12,presentation,exports,export_dialog.py,"Chọn loại export, kiểm tra trạng thái review",Case+review,export command,ExportPort,UI_MAIN,230,high,DESIGN_ONLY
+UI13,presentation,errors,error_resolution_widget.py,Hiện mã lỗi và action có handler,error payload,retry/help focus,JobPort,UI_MAIN,250,medium,DESIGN_ONLY
+UI14,slicer_bridge,mrml,volume_node_bridge.py,"Import read-only CT, tạo volume node",CanonicalVolume,MRML volume handle,GeometryPort,UI_MAIN,280,critical,DESIGN_ONLY
+UI15,slicer_bridge,mrml,segment_node_bridge.py,Mapping segmentation mask với Segmentations node,mask+affine,MRML segment handles,SegmentationPort,UI_MAIN,300,critical,DESIGN_ONLY
+UI16,slicer_bridge,render,mesh_actor_registry.py,"Lazy show/hide actor/LOD, release refs",display meshes,actor handles,PreviewPort,UI_MAIN,260,medium,DESIGN_ONLY
+UI17,slicer_bridge,render,slice_focus_controller.py,Click graph branch → MPR CT focus,branch CT locator,views focus,GeometryPort,UI_MAIN,200,high,DESIGN_ONLY
+UI18,slicer_bridge,events,main_thread_dispatcher.py,Dispatch worker events tới Qt main thread,events,safe UI signals,JobPort,UI_MAIN,180,critical,DESIGN_ONLY
+AP01,application,cases,case_create_usecase.py,"Tạo case id, link source, không lưu PHI trong logs",selection,CaseManifest,CaseStorePort,CPU_LIGHT,220,high,DESIGN_ONLY
+AP02,application,jobs,job_submit_usecase.py,"Validate stage deps, submit job",JobRequest,JobRef,JobPort,CPU_LIGHT,220,high,DESIGN_ONLY
+AP03,application,jobs,job_cancel_usecase.py,Cancel job and clean orphan process safely,job ID,cancelled state,JobPort,CPU_LIGHT,200,high,DESIGN_ONLY
+AP04,application,jobs,dag_coordinator.py,Phụ thuộc stages + partial rerun,case graph,ready stages,ArtifactStorePort,CPU_LIGHT,300,critical,DESIGN_ONLY
+AP05,application,jobs,stage_policy.py,Policy retry/degrade/fallback,stage result,next state,ResourcePort,CPU_LIGHT,200,high,DESIGN_ONLY
+AP06,application,review,review_usecase.py,Chỉ UI xác nhận review status,review action,immutable review record,ReviewPort,UI_MAIN,250,critical,DESIGN_ONLY
+AP07,application,planning,create_plan_usecase.py,Tạo kế hoạch từ reviewed artifacts,lesion+territory,PlanArtifact,PlanPort,CPU_LIGHT,260,critical,DESIGN_ONLY
+AP08,application,exports,export_usecase.py,Export approved/experimental theo policy,artifacts,export manifest,ExportPort,CPU_LIGHT,210,high,DESIGN_ONLY
+DM01,domain,entities,case_geometry.py,Biểu diễn affine/shape/unit/source provenance bất biến,DICOM geometry,Geometry VO,None,PURE,220,critical,DESIGN_ONLY
+DM02,domain,entities,segmentation_artifact.py,Định nghĩa masks immutable và class map,source+mask metadata,Segmentation VO,DM01,PURE,200,high,DESIGN_ONLY
+DM03,domain,entities,branch_instance.py,"Stable ID, parents, children, geometry links",graph+labels,Branch VO,DM01,PURE,250,critical,DESIGN_ONLY
+DM04,domain,entities,territory_candidate.py,Các vùng ước tính theo method,masks+method,Territory VO,DM01,PURE,200,high,DESIGN_ONLY
+DM05,domain,entities,lesion_entity.py,Lesion geometry+manual/AI provenance,lesion ROI,Lesion VO,DM01,PURE,180,high,DESIGN_ONLY
+DM06,domain,entities,plan_candidate.py,Plan with hypothetical measurements,territory+lesion,Plan VO,"DM03,DM04,DM05",PURE,240,critical,DESIGN_ONLY
+DM07,domain,entities,review_record.py,Trạng thái bác sĩ/invalidated by revision,review action,Review VO,DM01,PURE,220,critical,DESIGN_ONLY
+DM08,domain,validation,anatomy_ontology.py,"Tên A/V/B, fused variants và mapping label IDs",source label maps,normalized ontology,DM03,PURE,260,critical,DESIGN_ONLY
+DM09,domain,validation,artifact_lineage.py,Hash-based invalidation dependencies,source revisions,invalidation set,"DM02,DM03,DM07",PURE,230,critical,DESIGN_ONLY
+DM10,domain,validation,quality_findings.py,"Phân loại severity/uncertainty, no fake certainty",metric findings,quality flags,DM01,PURE,180,critical,DESIGN_ONLY
+CT01,contracts,schema,contract_registry.py,Version/compat registry của DTO,contract names,version mapping,None,PURE,200,critical,DESIGN_ONLY
+CT02,contracts,schema,request_validator.py,Validate request and reject unknown major,job DTO,validated request,CT01,PURE,200,critical,DESIGN_ONLY
+CT03,contracts,schema,artifact_validator.py,Validate artifacts shape/hash/units,artifact metadata,validation results,CT01,PURE,230,critical,DESIGN_ONLY
+IO01,adapters.dicom,discovery,dicom_series_scanner.py,Scan header metadata without full pixel decode,DICOM folder,series metadata,CT01,CPU_LIGHT,260,high,DESIGN_ONLY
+IO02,adapters.dicom,selection,dicom_series_validator.py,"Reject mixed phases, missing slices and geometry",selected UID,validated selection,IO01,CPU_LIGHT,280,critical,DESIGN_ONLY
+IO03,adapters.dicom,geometry,dicom_affine_builder.py,DICOM IJK→LPS 4x4 transform đúng per-frame,pixel modules,affine+per frame map,DM01,PURE,280,critical,DESIGN_ONLY
+IO04,adapters.dicom,geometry,geometry_roundtrip_validator.py,"Test transforms, shape, left/right",geometry+phantom,QA report,IO03,CPU_LIGHT,200,critical,DESIGN_ONLY
+IO05,adapters.dicom,pixel,dicom_volume_decoder.py,Decode selected pixels 1 lần; slope/intercept HU,valid source series,canonical CT,"IO02,IO03",CPU_HEAVY,280,critical,DESIGN_ONLY
+IO06,adapters.dicom,preprocess,canonical_volume_builder.py,Crop/resample and preserve source lineage,canonical CT,model volume views,IO05,CPU_HEAVY,300,high,DESIGN_ONLY
+IO07,adapters.segmentation,total_seg,totalseg_registry_probe.py,Verify task/classes/version/license without weight download,installed package,task registry,CT01,CPU_LIGHT,160,high,DESIGN_ONLY
+IO08,adapters.segmentation,total_seg,totalseg_inference_adapter.py,Run one lung_vessels task; capture model/hash,canonical CT,A/V/B masks,"IO06,IO07",CPU_HEAVY,300,critical,DESIGN_ONLY
+IO09,adapters.segmentation,lobes,lobe_inference_adapter.py,Run and verify 5 lobe segmentation,canonical CT,lobe masks,IO06,CPU_HEAVY,280,high,DESIGN_ONLY
+IO10,adapters.segmentation,masks,mask_geometry_validator.py,"Check class map, affine, geometry and missing areas",mask+source,QC report,"DM02,IO03",CPU_LIGHT,220,critical,DESIGN_ONLY
+GR01,adapters.graph,centerline,centerline_extractor.py,Topology-aware skeleton from masks,A/V/B mask,centerline geometry,IO10,CPU_LIGHT,290,critical,DESIGN_ONLY
+GR02,adapters.graph,junctions,junction_detector.py,Find branch/attachment nodes without false bridges,centerline,candidate graph,GR01,CPU_LIGHT,240,critical,DESIGN_ONLY
+GR03,adapters.graph,features,graph_feature_builder.py,"Create PTL x,pos,edge_index exact schema",graph+CT affine,normalized feature set,GR02,CPU_LIGHT,290,critical,DESIGN_ONLY
+GR04,adapters.graph,parity,ptl_graph_parity_checker.py,Author fixture graph tensor parity with tolerances,author graph+derived,parity report,GR03,CPU_LIGHT,250,critical,DESIGN_ONLY
+GR05,adapters.graph,veins,vein_forest_modeler.py,"Multiple roots and forest, prevent nearest-bridge",PV graph,validated forest,GR02,CPU_LIGHT,220,critical,DESIGN_ONLY
+LB01,adapters.labeling,ptl,ptl_checkpoint_probe.py,Check author SHA/spec/CPU compatible loader,weights/specs,model card,CT01,CPU_LIGHT,180,high,DESIGN_ONLY
+LB02,adapters.labeling,ptl,ptl_airway_adapter.py,PTL airway inference w graph contract,features+weights,airway candidates,"GR03,LB01",CPU_LIGHT,250,high,DESIGN_ONLY
+LB03,adapters.labeling,ptl,ptl_artery_adapter.py,PTL artery inference w graph contract,features+weights,artery candidates,"GR03,LB01",CPU_LIGHT,250,high,DESIGN_ONLY
+LB04,adapters.labeling,ptl,ptl_vein_adapter.py,PTL vein inference w graph contract,features+weights,vein candidates,"GR03,GR05,LB01",CPU_LIGHT,250,high,DESIGN_ONLY
+LB05,adapters.labeling,instances,branch_instance_mapper.py,Map point/voxel predictions to stable branch instances,PTL outputs,BranchInstances,"LB02,LB03,LB04",CPU_LIGHT,280,critical,DESIGN_ONLY
+LB06,adapters.labeling,manual,manual_branch_label_adapter.py,Allow manual names with transparent provenance,review editor,BranchInstances,DM08,UI_MAIN,220,high,DESIGN_ONLY
+TR01,adapters.territory,baseline,bronchial_territory_solver.py,Estimate volume from airway-guided anatomy,lobes+airway graph,bronchial candidate,"IO09,LB02",CPU_HEAVY,300,high,DESIGN_ONLY
+TR02,adapters.territory,baseline,arterial_territory_solver.py,Estimate volume from PA-guided anatomy,lobes+PA graph,arterial candidate,"IO09,LB03",CPU_HEAVY,300,high,DESIGN_ONLY
+TR03,adapters.territory,comparison,territory_disagreement_map.py,Compare candidates and uncertainty,territory pair,disagreement mask,"TR01,TR02",CPU_LIGHT,210,high,DESIGN_ONLY
+TR04,adapters.territory,impulse,impulse_experimental_adapter.py,Optional ImPulSe inference gated by original repro,approved inputs,experimental candidate,"TR01,TR02",CPU_HEAVY,260,high,DESIGN_ONLY
+PL01,adapters.oncology,lesion,manual_lesion_import.py,Convert Slicer ROI to source CT geometry,ROI+CT,LesionArtifact,DM05,CPU_LIGHT,220,high,DESIGN_ONLY
+PL02,adapters.oncology,lesion,lesion_ai_optional_adapter.py,Optional verified lesion model,CT,lesion candidate,DM05,CPU_HEAVY,240,medium,DESIGN_ONLY
+PL03,adapters.oncology,plans,resection_candidate_builder.py,Build proposed cut volumes/masks,territory+review,PlanCandidate,"TR03,DM06",CPU_LIGHT,280,critical,DESIGN_ONLY
+PL04,adapters.oncology,plans,geometric_margin_estimator.py,"Distance CT lesion to proposed cut surface, NOT pathology",lesion+surface,margin estimate,"PL01,PL03",CPU_LIGHT,250,critical,DESIGN_ONLY
+PL05,adapters.oncology,plans,branch_preservation_assessor.py,List branches intersect/relation to candidate resection,reviewed branches+plan,branch relations,"LB05,PL03",CPU_LIGHT,230,critical,DESIGN_ONLY
+QS01,adapters.qa,topology,branch_connectivity_checker.py,Find disconnected/tiny branch failures,mask+graph,flags+locators,GR01,CPU_LIGHT,230,critical,DESIGN_ONLY
+QS02,adapters.qa,consistency,artery_vein_overlap_checker.py,Detect PA/PV overlap/crossing errors,PA/PV masks,QA flags,IO08,CPU_LIGHT,220,critical,DESIGN_ONLY
+QS03,adapters.qa,geometry,artifact_alignment_checker.py,Verify source CT vs masks/plan mm-alignment,artifact pair,alignment report,IO03,CPU_LIGHT,230,critical,DESIGN_ONLY
+QS04,adapters.qa,uncertainty,uncertainty_policy.py,Abstain threshold / unknown / limited protocol,predictions+QC,policy outcome,DM10,PURE,210,critical,DESIGN_ONLY
+EX01,adapters.export,nrrd,nrrd_export_adapter.py,Export reviewable masks with affine and provenance,artifact,NRRD+manifest,DM02,CPU_LIGHT,200,medium,DESIGN_ONLY
+EX02,adapters.export,dicom,dicom_seg_export_adapter.py,Reference source CT and standard codes in DICOM SEG,mask+source refs,DICOM SEG,"DM01,DM02",CPU_LIGHT,300,critical,DESIGN_ONLY
+EX03,adapters.export,dicom,dicom_seg_roundtrip_validator.py,Independent reader SEG roundtrip geometry checks,DICOM SEG+CT,QA report,EX02,CPU_LIGHT,250,critical,DESIGN_ONLY
+EX04,adapters.export,mesh,surface_mesh_exporter.py,Export STL/OBJ for display only,mask+affine,mesh + source reference,DM02,CPU_LIGHT,220,high,DESIGN_ONLY
+EX05,adapters.export,reports,research_report_builder.py,"Generate study plan with warnings, sources, reviews",Plan+metadata,reviewable report,"DM06,DM07",CPU_LIGHT,280,high,DESIGN_ONLY
+IN00,infrastructure,jobs,worker_entrypoint.py,Thin isolated process entry point validates job envelope and delegates to use case,job request,worker lifecycle,CT02,CPU_LIGHT,160,high,DESIGN_ONLY
+IN01,infrastructure,storage,case_vault.py,"Protected case workspace, no PHI logging",case ref,vault path,CT01,IO_LIGHT,230,critical,DESIGN_ONLY
+IN02,infrastructure,storage,atomic_artifact_store.py,"Hash, temp, validate, commit stages atomically",files+manifest,immutable artifacts,"CT03,IN01",IO_LIGHT,290,critical,DESIGN_ONLY
+IN03,infrastructure,storage,cache_key_builder.py,Content-addressed stage cache; invalidation,dependencies+model SHA,cache digest,DM09,PURE,210,critical,DESIGN_ONLY
+IN04,infrastructure,jobs,job_manifest_store.py,Persist versioned jobs/events/states without DB server,job state,manifest files,IN02,IO_LIGHT,250,high,DESIGN_ONLY
+IN05,infrastructure,jobs,worker_process_launcher.py,Start/stop/cleanup child process tree Windows,validated request,worker handle,CT02,CPU_LIGHT,280,high,DESIGN_ONLY
+IN06,infrastructure,jobs,resource_scheduler.py,RAM/CPU/IO/GPU tokens and admission,stage profile,admit/defer,IN07,CPU_LIGHT,300,critical,DESIGN_ONLY
+IN07,infrastructure,jobs,resource_telemetry.py,"Collect memory commit, CPU threads, GPU UMA if available",OS counters,resource snapshot,None,CPU_LIGHT,220,high,DESIGN_ONLY
+IN08,infrastructure,jobs,resume_recovery.py,Recover after power loss and orphan temp,job manifest,resume plan,"IN02,IN04",IO_LIGHT,290,critical,DESIGN_ONLY
+IN09,infrastructure,hardware,backend_capability_probe.py,"Verify actual providers, unsupported ops and device",environment,backend capabilities,None,CPU_LIGHT,210,high,DESIGN_ONLY
+IN10,infrastructure,hardware,cpu_inference_session.py,CPU native/ONNX model lifecycle,model+inputs,model outputs,IN09,CPU_HEAVY,260,high,DESIGN_ONLY
+IN11,infrastructure,hardware,amd_inference_session.py,WinML/DirectML session and safe sequential calls,model+inputs,GPU outputs/fallback,IN09,GPU_OPTIONAL,280,high,DESIGN_ONLY
+IN12,infrastructure,audit,review_audit_ledger.py,"Append-only clinician-reviewed revision, tamper checks",review actions,auditable records,"DM07,IN01",IO_LIGHT,270,critical,DESIGN_ONLY
+IN13,infrastructure,audit,safe_event_logger.py,"No PHI error and stage log, safe diagnostics",structured events,safe log,IN01,IO_LIGHT,190,high,DESIGN_ONLY
+IN14,infrastructure,model,model_manifest_store.py,"Model cards, SHA/license/source/compat",model bundles,trusted registry,CT01,IO_LIGHT,240,critical,DESIGN_ONLY
+IN15,infrastructure,windows,installer_compatibility_checker.py,Check Slicer/OS/runtime/support before install,target system,compat report,IN09,CPU_LIGHT,220,high,DESIGN_ONLY
+IN16,infrastructure,windows,uninstall_data_guard.py,Protect vault/projects during uninstall,manifest+paths,safe deletion plan,IN01,IO_LIGHT,200,critical,DESIGN_ONLY
+IN17,infrastructure,benchmarks,benchmark_case_runner.py,Paired cold warm CPU AMD benchmarking with clinical parity references,case+model+provider,structured benchmark evidence,"IN07,IN09",CPU_LIGHT,240,high,DESIGN_ONLY

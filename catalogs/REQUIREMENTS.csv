@@ -1,0 +1,71 @@
+﻿requirement_id,category,requirement,priority,verification_method,status
+REQ-CORE-001,CORE,Phần mềm chỉ dành cho nghiên cứu cho tới khi được chấp thuận dùng lâm sàng,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-CORE-002,CORE,Đầu vào là thư mục DICOM do người dùng chọn; không dùng API cloud bắt buộc,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-CORE-003,CORE,Tự chọn series rõ ràng và không trộn phase,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-CORE-004,CORE,Ứng dụng vẫn dùng được nếu PTL/territory AI chưa sẵn sàng,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-CORE-005,CORE,Không tự ra quyết định cắt phân thùy,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-CORE-006,CORE,Các kết quả AI phải cho phép người dùng chọn unknown/reject,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-CORE-007,CORE,Tất cả outputs phải có provenance model+source,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-CORE-008,CORE,Bộ cài phải hỗ trợ offline Windows và không cần CUDA,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-GEOM-001,GEOM,Xác nhận geometry từng series và per-frame khi cần,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-GEOM-002,GEOM,IJK→LPS mm chuẩn; Slicer bridge xử lý LPS↔RAS,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-GEOM-003,GEOM,Ảnh CT nguồn immutable và lưu rescale HU,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-GEOM-004,GEOM,Mask luôn chứa affine/source link và kiểm alignment,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-GEOM-005,GEOM,Chặn thiếu FoR/gaps khi gây sai measurements,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-GEOM-006,GEOM,DICOM SEG ghi source references đúng,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-GEOM-007,GEOM,DICOM SEG roundtrip qua reader độc lập,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-GEOM-008,GEOM,Chống nhầm trái/phải bằng phantom bất đối xứng,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-001,AI,Chạy lung_vessels chỉ 1 lần trên một CT và cache kết quả,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-002,AI,Lobe segmentation riêng với đủ năm lớp,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-003,AI,Model registry khóa exact SHA + class map + license,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-004,AI,PTL original checkpoint phải tái lập trên author fixture,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-005,AI,"Graph parity phải xác minh x,pos,edge_index,normalization",P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-006,AI,Branch instances có stable ID và graph lineage,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-007,AI,Không ép PV thành 1-root tree,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-008,AI,Branch ontology gồm hợp nhánh và biến thể,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-009,AI,Không auto-confirm tên nhánh có confidence thấp,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-010,AI,Territory có baseline ngay cả khi ImPulSe chưa khả dụng,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-011,AI,Lesion có manual workflow khi AI chưa chọn,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-AI-012,AI,Kiểm định outside-domain theo CT protocol,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-001,PERF,CPU thuần là backend baseline cho mọi release,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-002,PERF,RAM 16GB Lite có degrade có kiểm soát,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-003,PERF,"32GB Standard là target đo, không cam kết trước benchmark",P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-004,PERF,64GB AMD UMA là optional acceleration,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-005,PERF,Worker không làm treo Qt/MRML thread,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-006,PERF,Preview 3D incremental không thay thế native detail,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-007,PERF,Chỉ tăng concurrency khi đủ memory tokens,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-008,PERF,Tránh over-subscription thread pools,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-009,PERF,Không dùng rendering mesh thay cho mask đo,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-010,PERF,Cache được selective invalidate sau manual edit,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-011,PERF,GPU phải benchmark operator execution and parity,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-012,PERF,INT8/FP16 cần quality regression tiny branch,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-PERF-013,PERF,TTFI/TTF3D/TTLABEL/TTPLAN được đo cold and warm,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-CLIN-001,CLIN,Tổn thương có CT-aligned ROI và nhiều lesion,P0,clinical expert review+dataset evidence,DESIGN_ONLY
+REQ-CLIN-002,CLIN,Có candidate territory theo bronchial và arterial guidance,P0,clinical expert review+dataset evidence,DESIGN_ONLY
+REQ-CLIN-003,CLIN,Lưu discrepancy map của territory candidates,P0,clinical expert review+dataset evidence,DESIGN_ONLY
+REQ-CLIN-004,CLIN,Plan hiển thị nhánh liên quan và cần bảo tồn,P0,clinical expert review+dataset evidence,DESIGN_ONLY
+REQ-CLIN-005,CLIN,Khoảng cách từ lesion đến mặt cắt là ước lượng CT không phải margin bệnh phẩm,P0,clinical expert review+dataset evidence,DESIGN_ONLY
+REQ-CLIN-006,CLIN,Review clinician không thể được engine tạo giả,P1,clinical expert review+dataset evidence,DESIGN_ONLY
+REQ-CLIN-007,CLIN,Bất kỳ upstream edit làm stale đúng các kết quả downstream,P1,clinical expert review+dataset evidence,DESIGN_ONLY
+REQ-CLIN-008,CLIN,Báo cáo xuất phải có cảnh báo and reviewer provenance,P1,clinical expert review+dataset evidence,DESIGN_ONLY
+REQ-CLIN-009,CLIN,Metric critical omission có giá trị hơn Dice cao tổng thể,P1,clinical expert review+dataset evidence,DESIGN_ONLY
+REQ-CLIN-010,CLIN,Đánh giá chuyên gia độc lập trên CT ngoài nguồn,P1,clinical expert review+dataset evidence,DESIGN_ONLY
+REQ-SEC-001,SEC,Không lưu PHI trong logs và dev fixtures,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-SEC-002,SEC,Tất cả nguồn repo/weights/license được pin và hash,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-SEC-003,SEC,Model pickle/repo chưa tin cậy không tự chạy trong viện,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-SEC-004,SEC,Trình cài không xóa patient vault khi uninstall,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-SEC-005,SEC,Quyền truy cập local vault và backup được cấu hình,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-SEC-006,SEC,Không mở network server hoặc gửi telemetry mặc định,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-SEC-007,SEC,Error UI không có nút bấm vô tác dụng,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-001,ENG,"Mỗi file nhỏ có một trách nhiệm; soft 250 LOC, review >300",P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-002,ENG,Không có circular import và domain không phụ thuộc UI,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-003,ENG,API contract được version SemVer và có negative test,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-004,ENG,Mỗi task có owner/deps/expected output and evidence,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-005,ENG,Mỗi module có unit/contract/integration coverage phù hợp,P0,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-006,ENG,Có ADR cho thay đổi protected core,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-007,ENG,Không release khi clean Windows offline smoke test fail,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-008,ENG,Không gắn PASS khi chỉ tạo tài liệu,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-009,ENG,Có SBOM và theo dõi CVE dependencies,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-010,ENG,Ghi test matrix và bảng risk controls theo task,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-011,ENG,Phát hành phiên bản có rollback và migration,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY
+REQ-ENG-012,ENG,Cơ chế resume sau worker crash giữ reviewed revisions,P1,inspected design+automated test+runtime evidence,DESIGN_ONLY

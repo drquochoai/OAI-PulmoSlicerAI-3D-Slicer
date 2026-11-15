@@ -1,0 +1,8 @@
+﻿pack_id,role,candidate_model,release_scope,backend_preference,mandatory_gate,status
+PACK-1,A/V/B semantic,TotalSegmentator lung_vessels,CORE,CPU first,model+code license+class mapping,not yet benchmarked
+PACK-2,Five lobe,TotalSeg total lobes or verified substitute,CORE,CPU first,5 class labels verified,not yet benchmarked
+PACK-3,Airway branch label,PTL airway,CORE_CONDITIONAL,CPU first,PTL original graph parity,not reproduced
+PACK-4,Artery branch label,PTL artery,CORE_CONDITIONAL,CPU first,PTL original graph parity,not reproduced
+PACK-5,Vein branch label,PTL vein,CORE_CONDITIONAL,CPU first,PV multi-root/graph parity,not reproduced
+PACK-6,Territory estimation,Geometry baseline + optional ImPulSe2,EXPERIMENTAL,CPU benchmark first,Lung3D / pretrained source rights,not reproduced
+PACK-7,Lesion model,"No selection, manual first",OPTIONAL,CPU first,nodule data and external validation,not selected

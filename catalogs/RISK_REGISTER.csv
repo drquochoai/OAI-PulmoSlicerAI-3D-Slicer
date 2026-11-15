@@ -1,0 +1,55 @@
+﻿risk_id,category,hazard,impact,mitigation,related_module_ids,release_gate,severity,evidence_status
+R001,Clinical,Sai trái phải do LPS/RAS,Đánh dấu sai vùng cắt,"IJK-LPS contract, phantom asymmetric, block on mismatch","IO03,UI14",G1,critical,NOT_VERIFIED
+R002,Clinical,Trộn 2 series CT nhiều phase,Mask và u sai tương quan,Explicit SeriesInstanceUID selection and FoR QC,IO02,G1,critical,NOT_VERIFIED
+R003,Clinical,CT lát dày nhưng tự đặt tên nhánh nhỏ,Bỏ sót/nhầm mạch,"Protocol suitability, abstain, mark limited","IO02,QS04",G3,critical,NOT_VERIFIED
+R004,Clinical,HU rescale không đúng,Segmentation sai,Per-frame slope/intercept tests,IO05,G1,critical,NOT_VERIFIED
+R005,Clinical,CT FoR/reference không khớp,Xuất SEG lệch vị trí,Source UID verification + independent roundtrip,"EX02,EX03",G6,critical,NOT_VERIFIED
+R006,Clinical,TotalSeg lung_vessels bị hiểu nhầm có lobes,Không đủ 5 thùy,Separate lobe adapter and class map,IO09,G1,high,NOT_VERIFIED
+R007,Clinical,Đứt các nhánh PA nhỏ,Thất bại bảo tồn mạch,Continuity checks and native ROI,QS01,G3,critical,NOT_VERIFIED
+R008,Clinical,PA/PV touching in projection,Nối nhầm động tĩnh mạch,Physical topology checks and review,QS02,G3,critical,NOT_VERIFIED
+R009,Clinical,PV không phải một cây 1 gốc,Sai sơ đồ V1/V2,PV forest/multiple ostia support,GR05,G2,critical,NOT_VERIFIED
+R010,Clinical,PTL graph features không tương đương,Tên nhánh sai tự tin,Original reproduction + graph parity,GR04,G2,critical,NOT_VERIFIED
+R011,Clinical,PTL checkpoint cấu hình nhánh cố định,Chạy airway tưởng chạy artery,Source code inspection + explicit config tests,LB01,G2,critical,NOT_VERIFIED
+R012,Clinical,Model output class là semantic không phải instance,Không có nhánh A1 thực sự,Branch instance extraction/lineage QA,LB05,G3,critical,NOT_VERIFIED
+R013,Clinical,Biến thể A/B/V ép vào taxonomy chuẩn,Hiển thị nhầm nhánh,Variant ontology + UNKNOWN/ABSTAIN,DM08,G3,critical,NOT_VERIFIED
+R014,Clinical,Margin CT bị nhầm margin giải phẫu bệnh,Nguy cơ phẫu thuật,Clear hypothetical label and review,PL04,G4,critical,NOT_VERIFIED
+R015,Clinical,Không cập nhật plan sau sửa u,Plan sai nhưng vẫn approved,Dependency invalidation and stale export stop,DM09,G4,critical,NOT_VERIFIED
+R016,Clinical,3D surface smoothing làm mất nhánh,Sai giải phẫu,"Native mask immutable, mesh display only","UI16,EX04",G5,critical,NOT_VERIFIED
+R017,Clinical,Territory được gọi là mặt phẳng thực tế,Sai lựa chọn phẫu thuật,Method-specific experimental and disagreements,TR03,G4,high,NOT_VERIFIED
+R018,Clinical,Không thấy nốt u trên CT gốc,Kế hoạch không khớp,Manual lesion ROI and source locator,PL01,G4,critical,NOT_VERIFIED
+R019,Clinical,Reviewer status do worker giả,Báo cáo giả đã xác nhận,UI-only authenticated review path,"AP06,IN12",G3,critical,NOT_VERIFIED
+R020,Clinical,Dữ liệu kiểm định trùng dữ liệu train,Metric ảo,Patient/source overlap audit,IN14,G7,high,NOT_VERIFIED
+R021,Performance,Chạy model nặng đồng thời trên 16GB,Paging/treo máy,Single heavy worker; RAM admission control,IN06,G5,high,NOT_VERIFIED
+R022,Performance,AMD shared VRAM bị tính thêm RAM,OOM và đơ,"Track total commit, UMA budget",IN07,G5,high,NOT_VERIFIED
+R023,Performance,DirectML parallel Run same session,Lỗi runtime/unstable,ORT sequential/serialise,IN11,G5,high,NOT_VERIFIED
+R024,Performance,PyTorch/PTL không export được ONNX,Bất khả dụng GPU,"CPU fallback, per-model runtime certification","IN10,LB01",G5,high,NOT_VERIFIED
+R025,Performance,Fast preview dùng để đo,Sai khoảng cách/nhánh,Separate LOD from measurement,UI16,G5,critical,NOT_VERIFIED
+R026,Performance,Nhiều thư viện thread pools tranh CPU,Tăng latency,Thread tokens/profiling,IN06,G5,medium,NOT_VERIFIED
+R027,Performance,Đọc lại CT nhiều lần,Chậm IO,Canonical CT decode once/cache,IO05,G5,medium,NOT_VERIFIED
+R028,Performance,Cache keys không có affine/model SHA,Reuse nhầm kết quả,Content-addressed cache identity,IN03,G5,critical,NOT_VERIFIED
+R029,Performance,GPU mode âm thầm chạy CPU,Giả báo nhanh,Provider profiling actual operator placement,IN09,G5,medium,NOT_VERIFIED
+R030,Performance,Crop ROI mất gốc/hilum,Thiếu mạch,Safety halo/root coverage QA,IO06,G5,critical,NOT_VERIFIED
+R031,Reliability,Worker crash giữa ghi file,Artifact nửa chừng báo complete,Atomic store+checksum,IN02,G6,high,NOT_VERIFIED
+R032,Reliability,Mất điện mất trạng thái đã duyệt,Mất công việc,Resume + immutable revisions,IN08,G6,high,NOT_VERIFIED
+R033,Reliability,Cancel không kill children,RAM vẫn đầy,Windows job process tree termination,IN05,G6,high,NOT_VERIFIED
+R034,Reliability,Không có chỗ đĩa,Hỏng dữ liệu nguồn,Disk quota and temp admission,IN02,G6,high,NOT_VERIFIED
+R035,Reliability,Một lỗi model làm crash cả Slicer,Không dùng được viewer,Isolated worker process,IN05,G1,high,NOT_VERIFIED
+R036,Security,PHI rò qua logs/agent chats,Vi phạm riêng tư,"Allowlist safe logs, no PHI test",IN13,G6,critical,NOT_VERIFIED
+R037,Security,File DICOM/zip có path traversal,Lộ/xóa file,"Canonical paths, reject junction escape",IN01,G6,high,NOT_VERIFIED
+R038,Security,Checkpoint không tin cậy thực thi mã,Compromised workstation,Trust+hash/sandbox model loading,IN14,G0,critical,NOT_VERIFIED
+R039,Security,Installer xóa patient vault,Mất bệnh án,Uninstall data guard and backup,IN16,G6,critical,NOT_VERIFIED
+R040,Security,Luôn chạy quyền admin,Tăng phạm vi tấn công,Least privilege and installer review,IN15,G6,medium,NOT_VERIFIED
+R041,Legal,Nguồn dataset/model không cho redistribute,Vi phạm giấy phép,Code/weights/data license matrix,IN14,G0,high,NOT_VERIFIED
+R042,Legal,Dùng CT viện không đủ quyền nghiên cứu,Vi phạm quyền bệnh nhân,IRB/site permissions and de-ID,IN01,G7,critical,NOT_VERIFIED
+R043,Legal,Gọi sản phẩm clinical-ready quá sớm,Nguy cơ pháp lý,Research-only labeling and regulatory review,UI12,G7,critical,NOT_VERIFIED
+R044,Maintainability,Một file Python khổng lồ,Không sửa độc lập,"SRP file cap, package boundaries",CT01,G0,medium,NOT_VERIFIED
+R045,Maintainability,Nhiều agent sửa schema song song,Trượt contract,Protected core owner and ADR,CT01,G0,high,NOT_VERIFIED
+R046,Maintainability,Version TotalSeg không được pin,Thay đổi class output,Version+task registry probe,IO07,G0,high,NOT_VERIFIED
+R047,Maintainability,Gói `.s4ext` bị hiểu là installer,Không cài được,Separate descriptor/package/wrapper installer,IN15,G6,medium,NOT_VERIFIED
+R048,Maintainability,Xung đột Python Slicer/PyTorch,Slicer không mở được,External Python environment,IN05,G1,high,NOT_VERIFIED
+R049,Maintainability,Không có rollback model,Không tái lập case cũ,Model registry + pinned revisions,IN14,G6,high,NOT_VERIFIED
+R050,Usability,Màu sắc A/PV/B dễ nhầm,Bác sĩ chọn sai,"Text labels, legend, pattern, review",UI08,G4,high,NOT_VERIFIED
+R051,Usability,Nút lỗi không có handler,Người dùng không sửa được,Error action mapping / UX test,UI13,G6,medium,NOT_VERIFIED
+R052,Usability,Hệ thống auto confidence dù thiếu dữ liệu,False reassurance,"Explicit uncertainty, fail closed",QS04,G3,critical,NOT_VERIFIED
+R053,Usability,Không hiển thị CT đối chiếu branch,Không thể kiểm chứng 3D,Focus CT+branch locator,UI17,G3,high,NOT_VERIFIED
+R054,SupplyChain,Source repository thay đổi đột ngột,Không tái lập build,"Commit lock, hashes, SBOM",IN14,G0,high,NOT_VERIFIED
