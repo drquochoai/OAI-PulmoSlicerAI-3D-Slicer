@@ -1,0 +1,18 @@
+# PulmoSlicer AI extension descriptor for 3D Slicer.
+scm git
+scmurl https://github.com/pulmoslicer/PulmoSlicerAI
+scmrevision local
+depends TotalSegmentator
+recommends SlicerVMTK SegmentEditorExtraEffects MarkupsToModel
+build_subdirectory slicer_extension
+homepage https://github.com/pulmoslicer/PulmoSlicerAI
+contributors PulmoSlicer AI research team
+category Chest by bsquochoainew
+iconurl
+status Experimental
+tier 5
+description Research pulmonary CT reconstruction using TotalSegmentator outputs; clinician review required.
+screenshoturls
+enabled 1
+dicom_support_rule
+keywords lung pulmonary CT segmentation reconstruction

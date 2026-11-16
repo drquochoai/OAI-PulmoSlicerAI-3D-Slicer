@@ -1,0 +1,13 @@
+PulmoSlicer interactive HTML viewer — third-party notice
+
+Three.js 0.187.0
+Copyright 2010-2026 three.js authors
+SPDX-License-Identifier: MIT
+Source: https://github.com/mrdoob/three.js/tree/r187
+
+The MIT license notice is retained inside viewer_bundle.js. The complete
+license is available from the source above. No remote Three.js resource is
+loaded at runtime; the reviewed bundle is embedded into each exported HTML.
+
+Build tool (not shipped as a runtime component): esbuild 0.28.2, MIT license.
+Source: https://github.com/evanw/esbuild/releases/tag/v0.28.2

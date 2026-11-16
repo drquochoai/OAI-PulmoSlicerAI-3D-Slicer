@@ -1,0 +1,12 @@
+.tools/
+build/
+python-*-embed-amd64.zip
+__pycache__/
+*.py[cod]
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+evidence/local/
+
+

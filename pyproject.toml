@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pulmoslicer-ai"
+version = "0.1.0"
+description = "Research-only 3D Slicer extension foundation for pulmonary anatomy review"
+requires-python = ">=3.9"
+license = { text = "Proprietary - research source pending release decision" }
+dependencies = ["pydicom>=3.0,<4"]
+
+[tool.setuptools.packages.find]
+include = ["pulmoslicer_engine*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+
